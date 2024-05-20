@@ -4,22 +4,38 @@
 #include "GraphObject.h"
 #include <vector>
 #include"GameWorld.h"
-class Actor :public GraphObject {
+
+class GameObject : public GraphObject {
 public:
-	Actor(int startingx, int startingy, int gameid) : GraphObject(gameid, startingx, startingy, right, 1.0, 0) {}
+	GameObject(int imageID, int startX, int startY, Direction dir, double size, unsigned int depth);// : GraphObject(imageID, startX, startY, dir, size, depth), annoyed(false), alive(true) {}
 
 	virtual void doSomething() = 0;
+	bool checkIfAnnoyed();
+	bool checkIfAlive();
+	void kill();
+	void annoy();
+private:
+	bool annoyed;
+	bool alive;
+	
+};
+class Actor :public GameObject {
+public:
+	Actor(int startingx, int startingy, int gameid) : GameObject(gameid, startingx, startingy, right, 1.0, 0) {}
+
+	virtual void doSomething() = 0;
+	
 };
 
 // Students:  Add code to this file, Actor.cpp, StudentWorld.h, and StudentWorld.cpp
-class Ice: public GraphObject {
+class Ice: public GameObject {
 public:
-	Ice(int startingx, int startingy) :GraphObject(IID_ICE, startingx, startingy, right, 0.25, 3) { setVisible(true); };//GraphObject(int imageID, int startX, int startY, Direction dir = right, double size = 1.0, unsigned int depth = 0)
+	Ice(int startingx, int startingy) :GameObject(IID_ICE, startingx, startingy, right, 0.25, 3) { };//GraphObject(int imageID, int startX, int startY, Direction dir = right, double size = 1.0, unsigned int depth = 0)
 
-
+	virtual void doSomething() {}
 	
 	
-	
+	~Ice() {};
 };
 
 class Iceman: public Actor {
@@ -32,5 +48,9 @@ public:
 private:
 	std::vector<std::vector<Ice*>> k;
 	GameWorld* world;
+	int hitpoints;
+	int water;
+	int sonar;
+	int gold;
 };
 #endif // ACTOR_H_

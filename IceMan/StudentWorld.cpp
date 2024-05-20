@@ -2,7 +2,7 @@
 #include <string>
 #include <vector>
 using namespace std;
-vector<vector<Ice*>> k(60, vector<Ice*>(60));
+//vector<vector<Ice*>> k(60, vector<Ice*>(60)); remove later
 GameWorld* createStudentWorld(string assetDir)
 {
 	return new StudentWorld(assetDir);
@@ -15,7 +15,7 @@ GameWorld* createStudentWorld(string assetDir)
 	for (int i = 0; i < 60; i++) {
 		for (int j = 0; j < 60; j++) {
 			if(j>4)
-			if ((i-28)>0&&(i-28)<5) {
+			if ((i-29)>0&&(i-30)<4) {
 				
 				s[i][j] = nullptr;
 					continue;
@@ -26,98 +26,48 @@ GameWorld* createStudentWorld(string assetDir)
 			
 		}
 	}
+	
 	k = s;
 	bill = new Iceman(k,this);
 	return 0;
 }
+
+ int ss = 100;
  int StudentWorld::move() {
-	/* billx = bill->getX();
-	 billy = bill->getY();
-	 setGameStatText(to_string(billx) + "  " + to_string(billy));
-	 int templives= getLives();
-	 getLevel();
-	 int sss = 0;
-	 getKey(sss);
-	 
-	 if (sss == 1001) {
-		 bill->moveTo(bill->getX() + 1, bill->getY());
-		 billx += 4;
-		 if (bill->getDirection() != GraphObject::right) {
-			 bill->setDirection(GraphObject::right);
-			
-		 }
-		 for (int i = 4; i != 0; i--) {
-			 if (billx >= 0 && billx <= 59 && billy <= 59 && billy >= 0)
-				 if (k[billx][billy] != nullptr) {
-					 delete k[billx][billy];
-					 k[billx][billy] = nullptr;
-
-				 }
-			 billy++;
-		 }
-	 }
-	 if (sss == 1002) {
-		 bill->moveTo(bill->getX(), bill->getY()+1);
-		 billy += 4;
-		 if (bill->getDirection() != GraphObject::up) {
-			 bill->setDirection(GraphObject::up);
-		 }
-
-		 if (billx >= 0 && billx <= 59 && billy <= 59 && billy >= 0) {
-			 
-			 for (int i = 4; i != 0; i--) {
-				 if (billx >= 0 && billx <= 59 && billy <= 59 && billy >= 0)
-				 if (k[billx][billy] != nullptr) {
-					 delete k[billx][billy];
-					 k[billx][billy] = nullptr;
-
-				 }
-				 billx++;
-			}
-
-		 }
-	 }
-	 if (sss == 1003) {
-		 bill->moveTo(bill->getX(), bill->getY() - 1);
-		 if (bill->getDirection() != GraphObject::down) {
-			 bill->setDirection(GraphObject::down);
-		 }
-		 billy -= 1;
-		 for (int i = 4; i != 0; i--) {
-			 if (billx >= 0 && billx <= 59 && billy <= 59 && billy >= 0)
-				 if (k[billx][billy] != nullptr) {
-					 delete k[billx][billy];
-					 k[billx][billy] = nullptr;
-
-				 }
-			 billx++;
-		 }
-	 }
-	 if (sss == 1000) {
-		 bill->moveTo(bill->getX() - 1, bill->getY());
-		 if (bill->getDirection() != GraphObject::left) {
-			 bill->setDirection(GraphObject::left);
-		}
-		 billx -= 1;
-		 for (int i = 4; i != 0; i--) {
-			 if (billx >= 0 && billx <= 59 && billy <= 59 && billy >= 0)
-				 if (k[billx][billy] != nullptr) {
-					 delete k[billx][billy];
-					 k[billx][billy] = nullptr;
-
-				 }
-			 billy++;
-		 }
-
-	 }*/
-	 int key;
+	
 	 bill->doSomething();
 	 
-	
+	 
+	 if (ss-- == 12) {
+		 decLives();
+		 ss = 70;
+		 return 0;
+	 }
 	 
 	 // This code is here merely to allow the game to build, run, and terminate after you hit enter a few times.
 	 // Notice that the return value GWSTATUS_PLAYER_DIED will cause our framework to end the current level.
 	 
 
 	 return GWSTATUS_CONTINUE_GAME;
+ }
+
+ void StudentWorld::cleanUp() {
+	
+	 
+	 int x = 0;
+	 int y = 0;
+	 for ( x = 59; x != 0; x--) {
+		 if (x >= 0 && x <= 59 && y <= 59 && y >= 0)
+			 if (k[x][y] != nullptr) {
+				 delete k[x][y];
+				 k[x][y] = nullptr;
+
+			 }
+		 y++;
+	 }
+
+
+
+	
+	 delete bill;
  }
