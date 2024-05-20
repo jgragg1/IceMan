@@ -6,6 +6,7 @@
 #include <string>
 #include<vector>
 #include "Actor.h"
+
 // Students:  Add code to this file, StudentWorld.cpp, Actor.h, and Actor.cpp
 
 class StudentWorld : public GameWorld
@@ -20,9 +21,7 @@ public:
 
 	virtual int move();
 	
-	virtual void cleanUp()
-	{
-	}
+	virtual void cleanUp();
 
 	StudentWorld getWorld() {
 		return *this;
@@ -31,7 +30,7 @@ public:
 	
 private:
 	Iceman* bill;
-	
+	std::vector<std::vector<Ice*>> k;
 };
 
 #endif // STUDENTWORLD_H_
