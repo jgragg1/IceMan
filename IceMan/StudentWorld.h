@@ -26,11 +26,14 @@ public:
 	StudentWorld getWorld() {
 		return *this;
 	}
-
-	
+	Iceman* getIceman() {
+		return bill;
+	}
+	~StudentWorld();
 private:
 	Iceman* bill;
 	std::vector<std::vector<Ice*>> k;
+	std::vector<GameObject*> worldStuff;
 };
 
 #endif // STUDENTWORLD_H_
