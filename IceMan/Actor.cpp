@@ -97,6 +97,7 @@ void Protestor::doSomething() {
 */
 
 void Protestor::doSomething() {
+	
 	ticks++;
 	int d = ticks % 15;
 	//world->setGameStatText(std::to_string(d));
@@ -190,9 +191,9 @@ void Protestor::doSomething() {
 
 			//world->setGameStatText(std::to_string(billx));
 			if (billx == 4) {
-				world->setGameStatText(std::to_string(billx));
+				//world->setGameStatText(std::to_string(billx));
 				if (d == 3) {
-					world->setGameStatText("heeeeeeeeeeeeeeeeeeeeeeeeey");
+					//world->setGameStatText("heeeeeeeeeeeeeeeeeeeeeeeeey");
 					world->playSound(SOUND_PROTESTER_YELL);
 					worldStuff.front()->annoy();
 					return;
@@ -224,10 +225,25 @@ void Protestor::doSomething() {
 	if (billx == 0 || billy == 0) {
 		if (billx == 0&& billy!=0) {
 			if (billy>0) {
-				setDirection(down);
+				
+				
 				if (!(getX() > 0 || getX() < 60 || getY() > 0 || getY() < 60)) {
-					return;
+					
+						//world->setGameStatText("ss");
+						setDirection(down);
+
+						return;
+					
 				}
+				for (int i = 0; i <= 3; i++) {
+					if (getY() - 1 <= 0||getX()+i>60) {
+						return;
+					}
+					if (k[getX()+i][getY() - 1]->isVisible()) {
+						setDirection(down);
+						return;
+					}
+				}setDirection(down);
 				moveTo(getX(), getY() - 1);
 				numSquaresToMoveInCurrentDirection = 1;
 				return;
@@ -236,6 +252,16 @@ void Protestor::doSomething() {
 				setDirection(up);
 				if (!(getX() > 0 || getX() < 60 || getY() > 0 || getY() < 60)) {
 					return;
+				}
+				for (int i = 0; i <= 3; i++) {
+					if (getY() + 4 >= 60||getX()+i>=60) {
+						return;
+					}
+				
+					if (k[getX()+i][getY() + 4]->isVisible()) {
+						setDirection(up);
+						return;
+					}
 				}
 				moveTo(getX(), getY() + 1);
 				numSquaresToMoveInCurrentDirection = 1;
@@ -249,6 +275,15 @@ void Protestor::doSomething() {
 					
 					return;
 				}
+				for (int i = 0; i <= 3; i++) {
+					if (getX() - 1 <= 0||getY()+i<=0) {
+						return;
+					}
+					if (k[getX() - 1][getY()+i]->isVisible()) {
+						setDirection(left);
+						return;
+					}
+				}
 				moveTo(getX()-1, getY());
 				numSquaresToMoveInCurrentDirection = 1;
 				return;
@@ -258,6 +293,15 @@ void Protestor::doSomething() {
 				if (!(getX() > 0 || getX() < 60 || getY() > 0 || getY() < 60)) {
 					return;
 				}
+				for (int i = 0; i <= 3; i++) {
+				if (getX() + 4 > 60||getY()+i>=60) {
+					return;
+				}
+				if (k[getX() + 4][getY()+i]->isVisible()) {
+					setDirection(right);
+					return;
+				}
+			}
 				moveTo(getX()+1, getY());
 				
 				numSquaresToMoveInCurrentDirection = 1;
@@ -358,7 +402,11 @@ void Protestor::doSomething() {
 			//world->setGameStatText(std::to_string(getDirection()) + "upfacing" + std::to_string(getX()));
 			if (getY() > 0 && getY() < 59) {
 				
-				if (k[getX()][getY() + 1]->isVisible() == false) {
+				
+				if (getY() + 4 > 59) {
+					return;
+				}
+				if (k[getX()][getY() + 4]->isVisible() == false) {
 					moveTo(getX(), getY() + 1);
 					return;
 				}
@@ -541,6 +589,12 @@ world(m), hitpoints(10), water(5),sonar(1),gold(0) {  };
 
 }
 
+void Iceman::annoy() {
+	hitpoints -= 2;
+	if (hitpoints <= 0) {
+		kill();
+	}
+}
 
   GameObject::GameObject(int imageID, int startX, int startY, Direction dir = right, double size = 1.0, unsigned int depth = 0) :
 	  GraphObject(imageID, startX, startY, dir, size, depth), annoyed(false), alive(true) {
@@ -557,5 +611,6 @@ world(m), hitpoints(10), water(5),sonar(1),gold(0) {  };
 	  }
 	  void GameObject::annoy() {
 		  annoyed = true;
+
 	  }
-  
+	 

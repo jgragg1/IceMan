@@ -10,10 +10,10 @@ public:
 	GameObject(int imageID, int startX, int startY, Direction dir, double size, unsigned int depth);// : GraphObject(imageID, startX, startY, dir, size, depth), annoyed(false), alive(true) {}
 
 	virtual void doSomething() = 0;
-	bool checkIfAnnoyed();
-	bool checkIfAlive();
-	void kill();
-	void annoy();
+	virtual bool checkIfAnnoyed();
+	virtual bool checkIfAlive();
+	 void kill();
+	virtual void annoy();
 private:
 	bool annoyed;
 	bool alive;
@@ -22,9 +22,10 @@ private:
 class Actor :public GameObject {
 public:
 	Actor(int startingx, int startingy, int gameid, Direction dir) : GameObject(gameid, startingx, startingy, dir, 1.0, 0) {}
-
+	
 	virtual void doSomething() = 0;
 	
+
 };
 
 // Students:  Add code to this file, Actor.cpp, StudentWorld.h, and StudentWorld.cpp
@@ -47,7 +48,7 @@ class Protestor :public Actor {
 	virtual void annoy() {
 		hitpoints -= 2;
 		if (hitpoints <= 0) {
-			kill();
+			leave_the_oilfield = true;;
 		}
 	}
 private:
@@ -65,7 +66,8 @@ class Iceman: public Actor {
 public:
 	//Iceman() :GraphObject(IID_PLAYER, 30, 60, right, 1, 0) { setVisible(true); };//GraphObject(int imageID, int startX, int startY, Direction dir = right, double size = 1.0, unsigned int depth = 0)
 	Iceman(std::vector<std::vector<Ice*>> ice,GameWorld* m);// : Actor(30, 60, IID_PLAYER), k(ice) { setVisible(true); };
-	
+	virtual void annoy();
+//	virtual void kill();
 	virtual void doSomething();
 	~Iceman() {
 	

@@ -44,7 +44,10 @@ GameWorld* createStudentWorld(string assetDir)
 
  int ss = 100;
  int StudentWorld::move() {
-	
+	 if (bill->checkIfAlive() == false) {
+		 decLives();
+		 return GWSTATUS_PLAYER_DIED;
+	 }
 	 bill->doSomething();
 	 for (auto g : worldStuff) {
 		 if (g == bill) {
@@ -104,9 +107,11 @@ GameWorld* createStudentWorld(string assetDir)
 		 row.clear();
 	 }
 	 k.clear();
-
+	 for (auto g : worldStuff) {
+		 delete g;
+	 }
 	
-	 delete bill;
+	// delete bill;
  }
 
  StudentWorld::~StudentWorld() {
