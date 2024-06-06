@@ -34,10 +34,10 @@ GameWorld* createStudentWorld(string assetDir)
 	vector<GameObject*> stuff;
 	
 	worldStuff = stuff;worldStuff.push_back(bill);
-	Protestor* mike = new Protestor(k, this, worldStuff);
-	
-	worldStuff.push_back(mike);
-	
+//	Protestor* mike = new Protestor(k, this, worldStuff,IID_PROTESTER);
+	HardcoreProtestor* mitch = new HardcoreProtestor(k, this, worldStuff,IID_HARD_CORE_PROTESTER);
+//	worldStuff.push_back(mike);
+	worldStuff.push_back(mitch);
 	
 	return 0;
 }
@@ -53,21 +53,31 @@ GameWorld* createStudentWorld(string assetDir)
 		 if (g == bill) {
 			 continue;
 		 }
-		 g->doSomething();
-		 if (g->checkIfAlive() == false) {
-			 delete g;
+		 if (g->checkIfAlive()) {
+			 g->doSomething();
+		 }
+		 if (g->checkIfAlive() == false&&g->isVisible()) {
+			 g->moveTo(100, 100);
+			 g->setVisible(false);
+
 		 }
 	 }
+	 
 	 //testing script for clean up currently there is a know bug when clean up 
 	 // is called if ice has been broken best solution make ice not visible and
 	 //  only delete when the oil field is being deleted will clarify in person if that is allowed
-	/*
-	 if (ss-- == 12) {
-		 decLives();
-		 ss = 70;
-		 return 0;
-	 }
-	 */
+	
+	/* if (ss-- == 12) {
+		 for (auto h : worldStuff) {
+			 if (bill==h) {
+				 continue;
+			 }
+			 h->annoy();
+		 }
+		 ss = 500;
+		 
+	 }*/
+	 
 	 // This code is here merely to allow the game to build, run, and terminate after you hit enter a few times.
 	 // Notice that the return value GWSTATUS_PLAYER_DIED will cause our framework to end the current level.
 	 
