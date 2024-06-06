@@ -14,6 +14,7 @@ public:
 	virtual bool checkIfAlive();
 	 void kill();
 	virtual void annoy();
+	virtual void unannoy();
 private:
 	bool annoyed;
 	bool alive;
@@ -38,21 +39,30 @@ public:
 	
 	~Ice() {};
 };
+
+struct pathnode
+{
+	int x;
+	int y;
+	int pos=-1;
+	bool visited = false;
+};
 class Protestor :public Actor {
 	public:
-		Protestor(std::vector<std::vector<Ice*>> ice, GameWorld* m, std::vector<GameObject*> stuff);
+		Protestor(std::vector<std::vector<Ice*>> ice, GameWorld* m, std::vector<GameObject*> stuff,int id);
 	virtual void doSomething();
-	~Protestor() {
-
-	}
+	virtual void findpath(pathnode n);
+	
 	virtual void annoy() {
 		hitpoints -= 2;
 		if (hitpoints <= 0) {
 			leave_the_oilfield = true;;
 		}
+		
 	}
-private:
-	
+protected:
+	int annoyNumber;
+	bool isthereotherescapeoptions;
 	std::vector<GameObject*> worldStuff;
 	int tickcounter;
 	int ticks;
@@ -61,6 +71,34 @@ private:
 	GameWorld* world;
 	int hitpoints;
 	int numSquaresToMoveInCurrentDirection;
+	int pathfinder[65][65];
+};
+
+class HardcoreProtestor :public Protestor {
+public:
+	
+	HardcoreProtestor(std::vector<std::vector<Ice*>> ice, GameWorld* m, std::vector<GameObject*> stuff,int id=IID_HARD_CORE_PROTESTER);
+	virtual void HardcoreProtestor::findpath(pathnode node);
+	virtual void doSomething();
+	virtual void annoy() {
+		hitpoints -= 2;
+		if (hitpoints <= 0) {
+			leave_the_oilfield = true;;
+		}
+
+	}
+protected:
+	int annoyNumber;
+	bool isthereotherescapeoptions;
+	std::vector<GameObject*> worldStuff;
+	int tickcounter;
+	int ticks;
+	bool leave_the_oilfield;
+	std::vector<std::vector<Ice*>> k;
+	GameWorld* world;
+	int hitpoints;
+	int numSquaresToMoveInCurrentDirection;
+	int pathfinder[65][65];
 };
 class Iceman: public Actor {
 public:
